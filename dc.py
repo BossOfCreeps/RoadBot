@@ -2,7 +2,6 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 def forward():
-    GPIO.setmode(GPIO.BOARD)
     IN1=40
     IN2=38
     IN3=36
@@ -20,10 +19,9 @@ def forward():
     GPIO.output(IN6, GPIO.LOW)
     GPIO.output(IN7, GPIO.HIGH)
     GPIO.output(IN8, GPIO.LOW)
-    print 'ne rabotaet'
+    print 'forward'
     sleep(1)
 def backward():
-    GPIO.setmode(GPIO.BOARD)
     IN1=40
     IN2=38
     IN3=36
@@ -41,10 +39,9 @@ def backward():
     GPIO.output(IN6, GPIO.HIGH)
     GPIO.output(IN7, GPIO.LOW)
     GPIO.output(IN8, GPIO.HIGH)
-    print 'ne rabotaet'
+    print 'backward'
     sleep(1)    
 def stop():
-    GPIO.setmode(GPIO.BOARD)    
     IN1=40
     IN2=38
     IN3=36
@@ -63,6 +60,7 @@ def stop():
     GPIO.output(IN7, GPIO.LOW)
     GPIO.output(IN8, GPIO.LOW)
     sleep(1)
+    print "stop"
 def init():
     IN1=40
     IN2=38
