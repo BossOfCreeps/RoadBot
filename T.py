@@ -32,8 +32,12 @@ def draw_circle(event,x,y,flags,param):
         ir, ig, ib = frame[y,x,2],frame[y,x,1],frame[y,x,0]
         print ir, ig, ib, x, y
 
-GPIO.setwarnings(False)
+sleep(3)
+
+
+sleep(2)
 GPIO.cleanup()
+
 #
 cv2.namedWindow('frame')
 cap = cv2.VideoCapture(0)
@@ -42,12 +46,13 @@ img = np.zeros((512,512,3), np.uint8)
 cv2.setMouseCallback('frame',draw_circle)
 go=""
 while(True):
+    # Capture frame-by-frame
     ret, frame = cap.read()
 
     frame = box(frame,0,213,340,345,0,0,0)
     frame = box(frame,213,218,340,480,0,0,0)
     frame = box(frame,0,10,0,10,ir, ig, ib)
-   
+    #print ix, iy, ir, ig, ib, frame[iy,ix,2], frame[iy,ix,1], frame[iy,ix,0]
     step=20
     maxi=60
     x=340
@@ -56,28 +61,24 @@ while(True):
         y=0
         while y<213-step:
             y=y+step
-            
-            #if (abs(229 - frame[x,y,2])<maxi) and (abs(frame[x,y,1]-147)<maxi) and (abs(frame[x,y,0]-128)<maxi):
-            #    frame = box(frame,y-5,y+5,x-5,x+5,0,0,0)
+            #print x, y
+            if (abs(170 - frame[x,y,2])<maxi) and (abs(frame[x,y,1]-170)<maxi) and (abs(frame[x,y,0]-200)<maxi):
+                frame = box(frame,y-5,y+5,x-5,x+5,0,0,0)
     f=False
     s=False
-    #frame = box(frame,20-3,20+3,400-3,400+3,255,0,0)
-    #frame = box(frame,60-3,60+3,400-3,400+3,255,0,0)
 
-    if (abs(229 - frame[400,20,2])<maxi) and (abs(frame[400,20,1]-147)<maxi) and (abs(frame[400,20,0]-128)<maxi):
+    frame = box(frame,20-3,20+3,400-3,400+3,255,0,0)
+    frame = box(frame,60-3,60+3,400-3,400+3,255,0,0)
+    if (abs(170 - frame[20,400,2])<maxi) and (abs(frame[20,400,1]-170)<maxi) and (abs(frame[20,400,0]-200)<maxi):
         f=True
-    if (abs(229 - frame[400,60,2])<maxi) and (abs(frame[400,60,1]-147)<maxi) and (abs(frame[400,60,0]-128)<maxi):
+    if (abs(170 - frame[60,400,2])<maxi) and (abs(frame[60,400,1]-170)<maxi) and (abs(frame[60,400,0]-200)<maxi):
         s=True
     if f and s:
         print "f"
-    if f and not s:
-        print "l"
-    if not f and s:
-        print "r"
-    if not f and not s:
+    else:
         print "b"
-    
-    if f and s and go != "forward":
+    if not f and not s and go != "b":
+        GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(40, GPIO.OUT)
         GPIO.setup(38, GPIO.OUT)
@@ -90,7 +91,6 @@ while(True):
         GPIO.setup(29, GPIO.OUT)
         speed=GPIO.PWM(EN0,100)
         speed.start(100)
-        GPIO.setmode(GPIO.BOARD)
         GPIO.output(40, GPIO.LOW)
         GPIO.output(38, GPIO.HIGH)
         GPIO.output(36, GPIO.LOW)
@@ -100,7 +100,8 @@ while(True):
         GPIO.output(33, GPIO.LOW)
         GPIO.output(31, GPIO.HIGH)
         print go
-    if not f and not s and go != "b":
+    if f and s and go != "forward":
+        GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(40, GPIO.OUT)
         GPIO.setup(38, GPIO.OUT)
@@ -113,7 +114,6 @@ while(True):
         GPIO.setup(29, GPIO.OUT)
         speed=GPIO.PWM(EN0,100)
         speed.start(100)
-        GPIO.setmode(GPIO.BOARD)
         GPIO.output(40, GPIO.LOW)
         GPIO.output(38, GPIO.LOW)
         GPIO.output(36, GPIO.LOW)
@@ -127,15 +127,13 @@ while(True):
         go= "forward"
     else:
         go ="b"
-
-    frame = box(frame,20-3,20+3,400-3,400+3,255,0,0)
-    frame = box(frame,60-3,60+3,400-3,400+3,255,0,0)
 #
     cv2.imshow('frame', frame)
     k = cv2.waitKey(20) & 0xFF
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
+# When everything done, release the capture
 cap.release()
 #
 cv2.destroyAllWindows()

@@ -1,8 +1,8 @@
 import RPi.GPIO as GPIO
 import time
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(13,GPIO.OUT)
-p=GPIO.PWM(13,50)
+GPIO.setup(11,GPIO.OUT)
+p=GPIO.PWM(11,100)
 p.start(7.5)
 try:
         while True:

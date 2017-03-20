@@ -1,7 +1,7 @@
 git clone https://github.com/USER/demo.git
 git add .
 git status
-git commit -m "Add project"
+git commit -m "V1"
 git tag v1.0
 git push
 
