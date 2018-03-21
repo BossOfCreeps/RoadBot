@@ -1,8 +1,21 @@
 import cv2
 import urllib 
 import numpy as np
+import gc
+import threading
+import time
 
-stream=urllib.urlopen('http://localhost:8080/?action=stream')
+def clock(interval):
+    while True:
+        gc.collect()
+        time.sleep(interval)
+
+gc.enable()
+t=threading.Thread(target=clock, args=(3,))
+t.deamon = True
+t.start()
+
+stream=urllib.urlopen('http://10.0.0.14:8080/?action=stream')
 bytes=''
 while True:
     bytes+=stream.read(1024)
