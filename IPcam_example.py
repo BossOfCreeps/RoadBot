@@ -1,10 +1,10 @@
 import cv2
 cap = cv2.VideoCapture('http://localhost:8080/?action=stream')
 
-d = 30
+d = 40
 R = 200
-G = 90
-B = 80
+G = 170
+B = 85
 
 while True:
   X = 0
@@ -19,8 +19,8 @@ while True:
         X = X + x
         Y = Y + y
         C = C + 1
-      y = y + 40
-    x = x + 40
+      y = y + 45
+    x = x + 45
   if (C>0):
     X = X/C
     Y = Y/C
