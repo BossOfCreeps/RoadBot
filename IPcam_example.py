@@ -1,10 +1,42 @@
 import cv2
+import threading
+import time
+from DC import setupDC, setupSpeed, forward, backward, left, right
 cap = cv2.VideoCapture('http://localhost:8080/?action=stream')
 
+
 d = 40
-R = 200
-G = 170
-B = 85
+R = 245
+G = 225
+B = 168
+a = 0
+
+def server(interval):
+    global a
+    #while True:
+    #    if (a == 0):
+    #        setupDC()
+    #        setupSpeed(50)
+    #        a=1
+    #    if (a==1):
+    #        forward()
+    #        a=2
+    #    if (a==1):
+    #        backward()
+    #        a=3
+    #    if (a==1):
+    #        left()
+    #        a=4
+    #    if (a==1):
+    #        right()
+    #        a=1
+
+t=threading.Thread(target=server, args=(5,))
+t.deamon = True
+t.start()
+setupDC()
+setupSpeed(50)
+forward()
 
 while True:
   X = 0

@@ -49,4 +49,3 @@ while True:
     GPIO.output(IN6, GPIO.LOW)
     GPIO.output(IN7, GPIO.LOW)  # black back
     GPIO.output(IN8, GPIO.HIGH)
-GPIO.cleanup()
