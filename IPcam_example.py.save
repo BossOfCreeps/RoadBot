@@ -1,19 +1,9 @@
-import cv2 
-import threading 
-import time 
-import socket 
-import RPi.GPIO as GPIO 
-from time import sleep 
+import cv2
+import threading
+import time
+import RPi.GPIO as GPIO
+from time import sleep
 cap = cv2.VideoCapture('http://localhost:8080/?action=stream')
-
-sock = socket.socket()
-sock.connect(('192.168.0.102', 9090))
-sock.send('hello, world!')
-
-#    data = sock.recv(1024)
-#    if (data>""):
-#         print data
-#sock.close()
 
 IN1=3
 IN2=5
@@ -27,23 +17,14 @@ EN1=19
 EN2=21
 EN3=23
 EN4=24
-speed=60
+speed=50
 
 d = 30
-R = 180
-G = 51
-B = 71
+R = 67
+G = 72
+B = 142
 a = 0
 
-def stop ():
-    GPIO.output(IN1, GPIO.LOW)  # white back
-    GPIO.output(IN2, GPIO.LOW)
-    GPIO.output(IN3, GPIO.LOW)  # while forward
-    GPIO.output(IN4, GPIO.LOW)
-    GPIO.output(IN5, GPIO.LOW)  # black forward
-    GPIO.output(IN6, GPIO.LOW)
-    GPIO.output(IN7, GPIO.LOW)  # black back
-    GPIO.output(IN8, GPIO.LOW)
 
 def forward ():
     GPIO.output(IN1, GPIO.HIGH) # white back
@@ -114,11 +95,6 @@ def right ():
 GPIO.setwarnings(False)
 GPIO.cleanup()
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(22,GPIO.OUT)
-GPIO.setup(26,GPIO.OUT)
-p1=GPIO.PWM(22,100)
-p2=GPIO.PWM(26,100)
-
 GPIO.setup(IN1, GPIO.OUT)
 GPIO.setup(IN2, GPIO.OUT)
 GPIO.setup(IN3, GPIO.OUT)
@@ -155,8 +131,8 @@ while True:
         X = X + x
         Y = Y + y
         C = C + 1
-      y = y + 35
-    x = x + 35
+      y = y + 45
+    x = x + 45
   if (C>0):
     X = X/C
     Y = Y/C
@@ -176,36 +152,8 @@ while True:
     X=X+rig-lef
     Y=Y+bot-top
     cv2.circle(frame, (X, Y), 3, (255,255,255), -1)
-    #cv2.imshow('Video', frame)
-  if (Y>0) and (Y<300):
-    forward()
-  else:
-    stop() 
-    while True:
-        print "wait socket"
-        sock.send('hello')
-        data = sock.recv(1024)
-        print data
-        if (data == "yes"):
-            backward()
-            sleep(2)
-            stop()
-            p1.start(7.5)
-            p2.start(7.5)
-            p1.ChangeDutyCycle(90/7.2)
-            p2.ChangeDutyCycle(135/7.2)
-            time.sleep(1)
-
-            p1.ChangeDutyCycle(1/7.2)
-            p2.ChangeDutyCycle(120/7.2)
-            time.sleep(1)
-
-            p1.ChangeDutyCycle(180/7.2)
-            p2.ChangeDutyCycle(45/7.2)
-            time.sleep(1)
-            p1.stop()
-            p2.stop()
-
-  print Y
+  
+  if (X<
+  cv2.imsssshow('Video', frame)
   if cv2.waitKey(1) == 27:
     exit(0)

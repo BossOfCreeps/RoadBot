@@ -4,10 +4,16 @@
 import socket
 
 sock = socket.socket()
-sock.connect(('10.0.0.14', 9090))
-sock.send('hello, world!')
+sock.connect(('192.168.0.113', 9090))
+#sock.send('hello, world!')
 
-data = sock.recv(1024)
+a = True
+
+while a:
+    data = sock.recv(1024)
+    if (data>""):
+         print data
+
 sock.close()
 
 print data

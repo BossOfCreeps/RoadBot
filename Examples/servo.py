@@ -1,27 +1,24 @@
 import RPi.GPIO as GPIO
 import time
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(11,GPIO.OUT)
-p=GPIO.PWM(11,100)
-p.start(7.5)
-try:
-        while True:
-                p.ChangeDutyCycle(2.5)
-                time.sleep(1)
-                p.ChangeDutyCycle(3)
-                time.sleep(1)
-                p.ChangeDutyCycle(3.5)
-                time.sleep(1)
-                p.ChangeDutyCycle(4)
-                time.sleep(1)
-                p.ChangeDutyCycle(4.5)
-                time.sleep(1)
-                p.ChangeDutyCycle(5)
-                time.sleep(1)
-                p.ChangeDutyCycle(5.5)
-                time.sleep(1)
-                p.ChangeDutyCycle(6)
-                time.sleep(1)
-except KeyboardInterrupt:
-        p.stop()
-        GPIO.cleanup()
+GPIO.setwarnings(False)
+GPIO.setup(22,GPIO.OUT)
+GPIO.setup(26,GPIO.OUT)
+p1=GPIO.PWM(22,100)
+p2=GPIO.PWM(26,100)
+p1.start(7.5)
+p2.start(7.5)
+p1.ChangeDutyCycle(90/7.2)
+p2.ChangeDutyCycle(135/7.2)
+time.sleep(1)
+
+p1.ChangeDutyCycle(1/7.2)
+p2.ChangeDutyCycle(120/7.2)
+time.sleep(1)
+
+p1.ChangeDutyCycle(180/7.2)
+p2.ChangeDutyCycle(45/7.2)
+time.sleep(1)
+p1.stop()
+p2.stop()
+
