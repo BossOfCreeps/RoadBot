@@ -7,7 +7,7 @@ from time import sleep
 cap = cv2.VideoCapture('http://localhost:8080/?action=stream')
 
 sock = socket.socket()
-sock.connect(('192.168.0.102', 9090))
+sock.connect(('10.0.0.19', 9090))
 sock.send('hello, world!')
 
 #    data = sock.recv(1024)
@@ -30,9 +30,9 @@ EN4=24
 speed=60
 
 d = 30
-R = 180
-G = 51
-B = 71
+R = 148
+G = 59
+B = 75
 a = 0
 
 def stop ():
@@ -177,34 +177,39 @@ while True:
     Y=Y+bot-top
     cv2.circle(frame, (X, Y), 3, (255,255,255), -1)
     #cv2.imshow('Video', frame)
-  if (Y>0) and (Y<300):
+  if (Y>0) and (Y<225):
     forward()
   else:
-    stop() 
-    while True:
-        print "wait socket"
-        sock.send('hello')
-        data = sock.recv(1024)
-        print data
-        if (data == "yes"):
-            backward()
-            sleep(2)
-            stop()
-            p1.start(7.5)
-            p2.start(7.5)
-            p1.ChangeDutyCycle(90/7.2)
-            p2.ChangeDutyCycle(135/7.2)
-            time.sleep(1)
+#   backward()
+#    sleep(0.5)
+    stop()
+    
+    print "wait socket"
+    sock.send('hello')
+    data = sock.recv(1024)
+    print data
+    if (data == "yes"):
+#            backward()
+#            sleep(2)
+#            stop()
+        p1.start(7.5)
+        p2.start(7.5)
+        p1.ChangeDutyCycle(90/7.2)
+        p2.ChangeDutyCycle(135/7.2)
+        time.sleep(1)
 
-            p1.ChangeDutyCycle(1/7.2)
-            p2.ChangeDutyCycle(120/7.2)
-            time.sleep(1)
+        p1.ChangeDutyCycle(1/7.2)
+        p2.ChangeDutyCycle(120/7.2)
+        time.sleep(1)
 
-            p1.ChangeDutyCycle(180/7.2)
-            p2.ChangeDutyCycle(45/7.2)
-            time.sleep(1)
-            p1.stop()
-            p2.stop()
+        p1.ChangeDutyCycle(180/7.2)
+        p2.ChangeDutyCycle(45/7.2)
+        time.sleep(1)
+        p1.stop()
+        p2.stop()
+        exit()
+    if (data=="no"):
+        exit()
 
   print Y
   if cv2.waitKey(1) == 27:
